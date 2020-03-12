@@ -22,3 +22,8 @@ services:
             - 80:80
         privileged: true
         restart: always
+        logging: 
+            driver: "json-file"
+            options: 
+              max-size: "500m"
+              max-file: "3"
