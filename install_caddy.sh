@@ -1,3 +1,10 @@
+#!/bin/bash
+domain=$1
+email=$2
+proxy_site=$3
+path=$4
+v2ray_port=$5
+echo $domain $email $proxy_site $path $v2ray_port
 _download_caddy_file() {
 	# caddy_tmp="/tmp/install_caddy/"
 	# caddy_tmp_file="/tmp/install_caddy/caddy.tar.gz"
@@ -24,7 +31,8 @@ _download_caddy_file() {
 }
 _install_caddy_service() {
 	# setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/caddy
-    	
+        systemd=1
+	if [[ $systemd ]]; then
 		# cp -f ${caddy_tmp}init/linux-systemd/caddy.service /lib/systemd/system/
 		# # sed -i "s/www-data/root/g" /lib/systemd/system/caddy.service
 		# sed -i "/on-abnormal/a RestartSec=3" /lib/systemd/system/caddy.service
@@ -56,6 +64,12 @@ _install_caddy_service() {
 			WantedBy=multi-user.target
 		EOF
 		systemctl enable caddy
+	else
+		cp -f ${caddy_tmp}init/linux-sysvinit/caddy /etc/init.d/caddy
+		# sed -i "s/www-data/root/g" /etc/init.d/caddy
+		chmod +x /etc/init.d/caddy
+		update-rc.d -f caddy defaults
+	fi
 
 	# if [ -z "$(grep www-data /etc/passwd)" ]; then
 	# 	useradd -M -s /usr/sbin/nologin www-data
@@ -75,19 +89,14 @@ _install_caddy_service() {
 }
 
 main(){
-    domain=$1
-    email=$2
-    proxy_site=$3
-    path=$4
-    v2ray_port=$5
     _download_caddy_file
-	_install_caddy_service
+    _install_caddy_service
     cat >/etc/caddy/Caddyfile <<-EOF
-$domain {
+${domain} {
     tls ${email}
     gzip
 	timeouts none
-    proxy / $proxy_site {
+    proxy / ${proxy_site} {
         except /${path}
     }
     proxy /${path} 127.0.0.1:${v2ray_port} {

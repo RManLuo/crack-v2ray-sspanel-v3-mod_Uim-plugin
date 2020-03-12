@@ -164,7 +164,7 @@ downloadV2Ray(){
     rm -rf /tmp/v2ray
     mkdir -p /tmp/v2ray
     colorEcho ${BLUE} "Downloading V2Ray."
-    DOWNLOAD_LINK="https://github.com/RManOfCN/pay-v2ray-sspanel-v3-mod_Uim-plugin/releases/download/crack/v2ray-linux-64_crack.zip"
+    DOWNLOAD_LINK="https://github.com/RManOfCN/crack-v2ray-sspanel-v3-mod_Uim-plugin/releases/download/crack_4.22.1/crack_v2ray-4.22.1.6.zip"
     colorEcho ${BLUE} ${DOWNLOAD_LINK}
     curl ${PROXY} -L -H "Cache-Control: no-cache" -o ${ZIPFILE} ${DOWNLOAD_LINK}
     if [ $? != 0 ];then

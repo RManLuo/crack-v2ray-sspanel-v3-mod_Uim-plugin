@@ -1,0 +1,24 @@
+version: '3'
+services:
+    v2ray_tls:
+        build:
+          context: ./
+          dockerfile: Dockerfile
+          args:
+            panelurl: api_url
+            panelkey: api_key
+            nodeid: node_number
+            downwithpanel: 1
+            speedtestrate: 6 
+            paneltype: 0 
+            usemysql: 0 
+            nodeurl: node_host
+            mail: mail_for_caddy
+            fakeurl: https://ctftime.org/
+            v2ray_path: v2ray
+            v2ray_port: 10550
+        ports: 
+            - 443:443
+            - 80:80
+        privileged: true
+        restart: always

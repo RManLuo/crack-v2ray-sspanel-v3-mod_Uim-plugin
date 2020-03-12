@@ -1,0 +1,18 @@
+version: '3'
+services:
+    v2ray_ws:
+        build:
+          context: ./
+          dockerfile: Dockerfile
+          args:
+            panelurl: api_url
+            panelkey: api_key
+            nodeid: id_number
+            downwithpanel: 1
+            speedtestrate: 6 
+            paneltype: 0 
+            usemysql: 0 
+        ports: 
+            - 8233:8233
+        privileged: true
+        restart: always
